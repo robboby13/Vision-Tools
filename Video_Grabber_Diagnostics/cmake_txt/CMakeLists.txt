@@ -1,0 +1,11 @@
+cmake_minimum_required (VERSION 2.8)
+project (RecordVideo)
+find_package (OpenCV REQUIRED)
+add_executable (RecordVideo Record_Video.cpp)
+target_link_libraries (RecordVideo ${OpenCV_LIBS})
+
+cmake_minimum_required (VERSION 2.8)
+project (RecordVideo_CameraStat)
+find_package (OpenCV REQUIRED)
+add_executable (RecordVideo_CameraStat Capture_Video_Image_Statistics.cpp)
+target_link_libraries (RecordVideo_CameraStat ${OpenCV_LIBS})

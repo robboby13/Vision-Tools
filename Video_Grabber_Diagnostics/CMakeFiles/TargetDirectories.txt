@@ -1,0 +1,2 @@
+/home/dura/opencv3/samples/cpp/Video_Grabber_Diagnostics/CMakeFiles/RecordVideo.dir
+/home/dura/opencv3/samples/cpp/Video_Grabber_Diagnostics/CMakeFiles/RecordVideo_CameraStat.dir

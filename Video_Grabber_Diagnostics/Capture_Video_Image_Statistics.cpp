@@ -1,0 +1,92 @@
+#include "opencv2/highgui/highgui.hpp"
+#include <iostream>
+
+using namespace cv;
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+    VideoCapture cap(12); // open the video camera no. 0
+
+    if (!cap.isOpened())  // if not success, exit program
+    {
+        cout << "ERROR: Cannot open the video file" << endl;
+        return -1;
+    }
+
+ namedWindow("Video Recorder",CV_WINDOW_AUTOSIZE); //create a window called "Video Recorder"
+
+	double dWidth = cap.get(CV_CAP_PROP_FRAME_WIDTH); //get the width of frames of the video
+	double dHeight = cap.get(CV_CAP_PROP_FRAME_HEIGHT); //get the height of frames of the video
+	double dPositionMS = cap.get(CV_CAP_PROP_POS_MSEC); //Current position of the video file in milliseconds
+	double dFrameIndex = cap.get(CV_CAP_PROP_POS_FRAMES); //0-based index of the frame to be decoded/captured next
+	double dPositionVideo = cap.get(CV_CAP_PROP_POS_AVI_RATIO); //Relative position of the video file: 0 - start of the film, 1 - end of the film
+	double dFPS = cap.get(CV_CAP_PROP_FPS); //Frame rate
+	double dCodec = cap.get(CV_CAP_PROP_FOURCC); //4-character code of codec
+	double dFrameCount = cap.get(CV_CAP_PROP_FRAME_COUNT); //Number of frames in the video file
+	double dFormat = cap.get(CV_CAP_PROP_FORMAT); //Format of the Mat objects returned by retrieve()
+	double dBackEnd = cap.get(CV_CAP_PROP_MODE); //Backend-specific value indicating the current capture mode
+	double dBrightness = cap.get(CV_CAP_PROP_BRIGHTNESS); //Brightness of the image (only for cameras)
+	double dContrast = cap.get(CV_CAP_PROP_CONTRAST); //Contrast of the image (only for cameras)
+	double dSaturation = cap.get(CV_CAP_PROP_SATURATION); //Saturation of the image (only for cameras)
+	double dHue = cap.get(CV_CAP_PROP_HUE); //Hue of the image (only for cameras)
+	double dGain = cap.get(CV_CAP_PROP_GAIN); //Gain of the image (only for cameras).
+	double dExposure = cap.get(CV_CAP_PROP_EXPOSURE); //Exposure (only for cameras)
+	double dRGB = cap.get(CV_CAP_PROP_CONVERT_RGB); //Boolean flags indicating whether images should be converted to RGB
+	//double dWhite = cap.get(CV_CAP_PROP_WHITE_BALANCE); //Currently unsupported
+	//double dWidth = cap.get(CV_CAP_PROP_RECTIFICATION); //Rectification flag for stereo cameras (note: only supported by DC1394 v 2.x backend currently)
+
+   	cout << "Frame Size = " << dWidth << "x" << dHeight << endl;
+ 	cout << "Position MS = " << dPositionMS << endl;
+	cout << "Frame Index = " << dFrameIndex << endl;
+	cout << "Video Postion = " << dPositionVideo << endl;
+	cout << "Frame Rate (FPS) = " << dFPS << endl;
+	cout << "Codec = " << dCodec << endl;
+	cout << "Frame Count = " << dFrameCount << endl;
+	cout << "Format of Mat Objects = " << dFormat << endl;
+	cout << "Current Capture Mode = " << dBackEnd << endl;
+	cout << "Image Brightness = " << dBrightness << endl;
+	cout << "Image Contrast = " << dContrast << endl;
+	cout << "Image Saturation = " << dSaturation << endl;
+	cout << "Image Hue = " << dHue << endl;
+	cout << "Image Gain = " << dGain << endl;
+	cout << "Image Exposure = " << dExposure << endl;
+	cout << "RGB Conversion Needed = " << dRGB << endl;
+
+   Size frameSize(static_cast<int>(dWidth), static_cast<int>(dHeight));
+
+ VideoWriter oVideoWriter ("/home/dura/opencv3/samples/cpp/video_grabber/MyVideo.avi", CV_FOURCC('P','I','M','1'), 29, frameSize, true); //initialize the VideoWriter object 
+
+   if ( !oVideoWriter.isOpened() ) //if not initialize the VideoWriter successfully, exit the program
+   {
+        cout << "ERROR: Failed to write the video" << endl;
+        return -1;
+   }
+
+    while (1)
+    {
+
+        Mat frame;
+
+        bool bSuccess = cap.read(frame); // read a new frame from video
+
+        if (!bSuccess) //if not success, break loop
+       {
+             cout << "ERROR: Cannot read a frame from video file" << endl;
+             break;
+        }
+
+         oVideoWriter.write(frame); //writer the frame into the file
+
+        imshow("Video Recorder", frame); //show the frame in "MyVideo" window
+
+        if (waitKey(10) == 27) //wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
+       {
+            cout << "esc key is pressed by user" << endl;
+            break; 
+       }
+    }
+
+    return 0;
+
+}
