@@ -1,0 +1,5 @@
+cmake_minimum_required (VERSION 2.8)
+project (Multiple_Camera)
+find_package (OpenCV REQUIRED)
+add_executable (Multiple_Camera multiple_camera.cpp)
+target_link_libraries (Multiple_Camera ${OpenCV_LIBS})

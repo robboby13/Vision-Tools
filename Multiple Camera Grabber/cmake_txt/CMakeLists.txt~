@@ -1,0 +1,5 @@
+cmake_minimum_required (VERSION 2.8)
+project (SurroundView)
+find_package (OpenCV REQUIRED)
+add_executable (SurroundView surround_view.cpp)
+target_link_libraries (SurroundView ${OpenCV_LIBS})
